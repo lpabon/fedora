@@ -22,17 +22,18 @@
 #
 %{!?_version:%define _version 1.9.1}
 %{!?_name:%define _name glusterfs-openstack-swift}
-%{!?_release:%define _release 0.46}
+%{!?_release:%define _release 0}
 
-Summary  : GlusterFS Integration with OpenStack Object Storage (Swift).
+Summary  : GlusterFS Integration with OpenStack Object Storage (Swift)
 Name     : %{_name}
 Version  : %{_version}
 Release  : %{_release}%{?dist}
-Group    : Application/File
-Vendor   : Red Hat, Inc.
+Group    : Applications/File
+URL	 : http://forge.gluster.org/gluster-swift
+Vendor   : Fedora Project
 Source0  : %{_name}-%{_version}-%{_release}.tar.gz
-Packager : gluster-users@gluster.org
-License  : Apache
+Packager : gluster-devel@gluster.org
+License  : Apache Software License
 BuildArch: noarch
 BuildRequires: python
 BuildRequires: python-setuptools
@@ -55,7 +56,7 @@ Obsoletes: glusterfs-swift-account
 %description
 Gluster-For-Swift (G4S, pronounced "gee-force") integrates GlusterFS as an
 alternative back end for OpenStack Object Storage (Swift) leveraging the
-existing front end OpenStack Swift code. Gluster volumes are used to store
+existing front end OpenStack Swift code. GlusterFS volumes are used to store
 objects in files, containers are maintained as top-level directories of volumes,
 where accounts are mapped one-to-one to gluster volumes.
 
@@ -90,16 +91,16 @@ rm -rf %{buildroot}
 %{_bindir}/gluster-swift-gen-builders
 %{_bindir}/gluster-swift-print-metadata
 %dir %{_confdir}
-%config %{_confdir}/account-server.conf-gluster
-%config %{_confdir}/container-server.conf-gluster
-%config %{_confdir}/object-server.conf-gluster
-%config %{_confdir}/swift.conf-gluster
-%config %{_confdir}/proxy-server.conf-gluster
-%config %{_confdir}/fs.conf-gluster
+%config(noreplace) %{_confdir}/account-server.conf-gluster
+%config(noreplace) %{_confdir}/container-server.conf-gluster
+%config(noreplace) %{_confdir}/object-server.conf-gluster
+%config(noreplace) %{_confdir}/swift.conf-gluster
+%config(noreplace) %{_confdir}/proxy-server.conf-gluster
+%config(noreplace) %{_confdir}/fs.conf-gluster
 
 %changelog
-* Fri Aug 30 2013 Luis Pabon <lpabon@redhat.com> - 1.9.1-0.46
-- Change version to 1.9.1
+* Wed Sep 04 2013 Luis Pabon <lpabon@redhat.com> - 1.9.1-0
+- Submit to Fedora Project
 
 * Wed Aug 21 2013 Luis Pabon <lpabon@redhat.com> - 1.8.0-7
 - Update RPM spec file to support SRPMS
