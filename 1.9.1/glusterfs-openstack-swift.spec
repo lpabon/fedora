@@ -22,7 +22,7 @@
 #
 %{!?_version:%define _version 1.9.1}
 %{!?_name:%define _name glusterfs-openstack-swift}
-%{!?_release:%define _release 0}
+%{!?_release:%define _release 1}
 
 Summary  : GlusterFS Integration with OpenStack Object Storage (Swift)
 Name     : %{_name}
