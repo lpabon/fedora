@@ -1,15 +1,3 @@
-############################################################################################################
-# Command to build rpms.#
-# $ rpmbuild -ta %{name}-%{version}-%{release}.tar.gz #
-############################################################################################################
-# Setting up the environment. #
-#  * Create a directory %{name}-%{version} under $HOME/rpmbuild/SOURCES #
-#  * Copy the contents of gluster directory into $HOME/rpmbuild/SOURCES/%{name}-%{version} #
-#  * tar zcvf %{name}-%{version}-%{release}.tar.gz $HOME/rpmbuild/SOURCES/%{name}-%{version} %{name}.spec #
-# For more information refer #
-# http://fedoraproject.org/wiki/How_to_create_an_RPM_package #
-############################################################################################################
-
 %if ! (0%{?fedora} > 12 || 0%{?rhel} > 5)
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 %endif
@@ -18,7 +6,7 @@
 
 # The following values are provided by passing the following arguments
 # to rpmbuild.  For example:
-# 	--define "_version 1.0" --define "_release 1" --define "_name g4s"
+# --define "_version 1.0" --define "_release 1" --define "_name g4s"
 #
 %{!?_version:%define _version 1.9.1}
 %{!?_name:%define _name glusterfs-openstack-swift}
@@ -29,11 +17,10 @@ Name     : %{_name}
 Version  : %{_version}
 Release  : %{_release}%{?dist}
 Group    : Applications/File
-URL	 : http://forge.gluster.org/gluster-swift
+URL      : http://forge.gluster.org/gluster-swift
 Vendor   : Fedora Project
 Source0  : %{_name}-%{_version}-%{_release}.tar.gz
-Packager : gluster-devel@gluster.org
-License  : Apache Software License
+License  : ASL 2.0
 BuildArch: noarch
 BuildRequires: python
 BuildRequires: python-setuptools
@@ -45,13 +32,13 @@ Requires : openstack-swift-account = 1.9.1
 Requires : openstack-swift-container = 1.9.1
 Requires : openstack-swift-object = 1.9.1
 Requires : openstack-swift-proxy = 1.9.1
-Obsoletes: glusterfs-swift-plugin
-Obsoletes: glusterfs-swift
-Obsoletes: glusterfs-ufo
-Obsoletes: glusterfs-swift-container
-Obsoletes: glusterfs-swift-object
-Obsoletes: glusterfs-swift-proxy
-Obsoletes: glusterfs-swift-account
+Obsoletes: glusterfs-swift-plugin <= 3.4.0
+Obsoletes: glusterfs-swift <= 3.4.0
+Obsoletes: glusterfs-ufo <= 3.4.0
+Obsoletes: glusterfs-swift-container <= 3.4.0
+Obsoletes: glusterfs-swift-object <= 3.4.0
+Obsoletes: glusterfs-swift-proxy <= 3.4.0
+Obsoletes: glusterfs-swift-account <= 3.4.0
 
 %description
 Gluster-For-Swift (G4S, pronounced "gee-force") integrates GlusterFS as an
@@ -99,7 +86,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_confdir}/fs.conf-gluster
 
 %changelog
-* Wed Sep 04 2013 Luis Pabon <lpabon@redhat.com> - 1.9.1-0
+* Wed Sep 04 2013 Luis Pabon <lpabon@redhat.com> - 1.9.1-1
 - Submit to Fedora Project
 
 * Wed Aug 21 2013 Luis Pabon <lpabon@redhat.com> - 1.8.0-7
