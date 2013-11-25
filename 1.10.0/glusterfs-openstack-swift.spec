@@ -26,7 +26,7 @@ Requires : openstack-swift-account = 1.10.0
 Requires : openstack-swift-container = 1.10.0
 Requires : openstack-swift-object = 1.10.0
 Requires : openstack-swift-proxy = 1.10.0
-Requires : glusterfs-api
+Requires : glusterfs-api >= 3.4.1
 Obsoletes: glusterfs-swift-plugin <= 3.4.0
 Obsoletes: glusterfs-swift <= 3.4.0
 Obsoletes: glusterfs-ufo <= 3.4.0
