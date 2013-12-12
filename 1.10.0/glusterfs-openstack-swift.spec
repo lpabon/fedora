@@ -1,24 +1,16 @@
-%define _confdir %{_sysconfdir}/swift
-
-# The following values are provided by passing the following arguments
-# to rpmbuild.  For example:
-# --define "_version 1.0" --define "_release 1" --define "_name g4s"
-#
-%{!?_version:%define _version 1.10.0}
-%{!?_name:%define _name glusterfs-openstack-swift}
-%{!?_release:%define _release 1}
+%global _confdir %{_sysconfdir}/swift
 
 Summary  : GlusterFS Integration with OpenStack Object Storage (Swift)
-Name     : %{_name}
-Version  : %{_version}
-Release  : %{_release}%{?dist}
+Name     : glusterfs-openstack-swift
+Version  : 1.10.0
+Release  : 1%{?dist}
 Group    : Applications/File
 URL      : http://launchpad.net/gluster-swift
-Vendor   : Fedora Project
 Source0  : https://launchpad.net/gluster-swift/havana/1.10.0-0/+download/gluster_swift-1.10.0.tar.gz
 License  : ASL 2.0
 BuildArch: noarch
 BuildRequires: python-setuptools
+BuildRequires: python2-devel
 Requires : memcached
 Requires : openssl
 Requires : openstack-swift = 1.10.0
@@ -36,31 +28,23 @@ Obsoletes: glusterfs-swift-proxy <= 3.4.0
 Obsoletes: glusterfs-swift-account <= 3.4.0
 
 %description
-Gluster-For-Swift (G4S, pronounced "gee-force") integrates GlusterFS as an
-alternative back end for OpenStack Object Storage (Swift) leveraging the
-existing front end OpenStack Swift code. GlusterFS volumes are used to store
-objects in files, containers are maintained as top-level directories of volumes,
-where accounts are mapped one-to-one to gluster volumes.
+Gluster-Swift integrates GlusterFS as an alternative back end for OpenStack
+Object Storage (Swift) leveraging the existing front end OpenStack Swift code.
+GlusterFS volumes are used to store objects in files, containers are
+maintained as top-level directories of volumes, where accounts are mapped
+one-to-one to gluster volumes.
 
 %prep
 %setup -q -n gluster_swift-%{version}
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 %install
-rm -rf %{buildroot}
-
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 mkdir -p      %{buildroot}/%{_confdir}/
 cp -r etc/*   %{buildroot}/%{_confdir}/
-
-# Remove tests
-%{__rm} -rf %{buildroot}/%{python_sitelib}/test
-
-# Remove files provided by glusterfs-api
-%{__rm} -rf %{buildroot}/%{python_sitelib}/gluster/__init__.p*
 
 %files
 %defattr(-,root,root)
@@ -68,6 +52,8 @@ cp -r etc/*   %{buildroot}/%{_confdir}/
 %{python_sitelib}/gluster_swift-%{version}-*.egg-info
 %{_bindir}/gluster-swift-gen-builders
 %{_bindir}/gluster-swift-print-metadata
+%exclude %{python_sitelib}/test
+%exclude %{python_sitelib}/gluster/__init__.*
 
 %dir %{_confdir}
 %config(noreplace) %{_confdir}/account-server.conf-gluster
